@@ -1,0 +1,28 @@
+aid: jfrog-container-registry
+name: JFrog Container Registry
+description: >-
+  JFrog Container Registry is a free, cloud-based Docker and Helm registry for managing and distributing container images.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Containers
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/jfrog-container-registry/refs/heads/main/apis.yml
+created: '2026-03-26'
+modified: '2026-03-26'
+specificationVersion: '0.19'
+apis:
+  - aid: jfrog-container-registry:jfrog-container-registry
+    name: JFrog Container Registry
+    description: >-
+      JFrog Container Registry is a free, cloud-based Docker and Helm registry for managing and distributing container images.
+    humanURL: https://github.com/api-evangelist/jfrog-container-registry
+    tags:
+      - Containers
+    properties: []
+common:
+  - type: Website
+    url: https://github.com/api-evangelist/jfrog-container-registry
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
