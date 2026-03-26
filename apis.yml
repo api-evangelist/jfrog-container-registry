@@ -1,11 +1,16 @@
 aid: jfrog-container-registry
 name: JFrog Container Registry
 description: >-
-  JFrog Container Registry is a free, cloud-based Docker and Helm registry for managing and distributing container images.
+  JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images. It provides advanced access control, vulnerability scanning, and scales to support enterprise container workflows across any cloud or on-premises infrastructure.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Containers
+  - Registry
+  - Container Images
+  - Docker
+  - Helm
+  - JFrog
 url: >-
   https://raw.githubusercontent.com/api-evangelist/jfrog-container-registry/refs/heads/main/apis.yml
 created: '2026-03-26'
@@ -15,14 +20,38 @@ apis:
   - aid: jfrog-container-registry:jfrog-container-registry
     name: JFrog Container Registry
     description: >-
-      JFrog Container Registry is a free, cloud-based Docker and Helm registry for managing and distributing container images.
-    humanURL: https://github.com/api-evangelist/jfrog-container-registry
+      JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images with advanced access control and vulnerability scanning.
+    humanURL: https://jfrog.com/container-registry/
     tags:
       - Containers
-    properties: []
+      - Registry
+      - Container Images
+      - Docker
+      - Helm
+    properties:
+      - type: Documentation
+        url: https://jfrog.com/help/r/jfrog-artifactory-documentation
+      - type: Getting Started
+        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
+      - type: Pricing
+        url: https://jfrog.com/pricing/
 common:
   - type: Website
-    url: https://github.com/api-evangelist/jfrog-container-registry
+    url: https://jfrog.com/container-registry/
+  - type: Documentation
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation
+  - type: Getting Started
+    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
+  - type: GitHub Organization
+    url: https://github.com/jfrog
+  - type: Pricing
+    url: https://jfrog.com/pricing/
+  - type: Blog
+    url: https://jfrog.com/blog/
+  - type: Status
+    url: https://status.jfrog.com/
+  - type: Sign Up
+    url: https://jfrog.com/start-free/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
