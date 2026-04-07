@@ -5,12 +5,12 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Containers
-  - Registry
   - Container Images
+  - Containers
   - Docker
   - Helm
   - JFrog
+  - Registry
 url: >-
   https://raw.githubusercontent.com/api-evangelist/jfrog-container-registry/refs/heads/main/apis.yml
 created: '2026-03-26'
@@ -23,11 +23,11 @@ apis:
       JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images with advanced access control and vulnerability scanning.
     humanURL: https://jfrog.com/container-registry/
     tags:
-      - Containers
-      - Registry
       - Container Images
+      - Containers
       - Docker
       - Helm
+      - Registry
     properties:
       - type: Documentation
         url: https://jfrog.com/help/r/jfrog-artifactory-documentation
