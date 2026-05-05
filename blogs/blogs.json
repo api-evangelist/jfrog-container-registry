@@ -1,0 +1,13 @@
+{
+  "repo": "jfrog-container-registry",
+  "feeds": [
+    {
+      "source": "https://jfrog.com/blog/",
+      "feed_url": "https://jfrog.com/blog/feed/",
+      "saved": 10,
+      "title": "From the Frog's mouth - JFrog Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:30:02Z"
+}
