@@ -52,6 +52,11 @@ common:
     url: https://status.jfrog.com/
   - type: Sign Up
     url: https://jfrog.com/start-free/
+  - type: Integrations
+    url: https://jfrog.com/integrations/
+integrations:
+  - name: Docker
+  - name: Maven
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
