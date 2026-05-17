@@ -31,7 +31,7 @@ apis:
     properties:
       - type: Documentation
         url: https://jfrog.com/help/r/jfrog-artifactory-documentation
-      - type: Getting Started
+      - type: GettingStarted
         url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
       - type: Pricing
         url: https://jfrog.com/pricing/
@@ -40,17 +40,17 @@ common:
     url: https://jfrog.com/container-registry/
   - type: Documentation
     url: https://jfrog.com/help/r/jfrog-artifactory-documentation
-  - type: Getting Started
+  - type: GettingStarted
     url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/jfrog
   - type: Pricing
     url: https://jfrog.com/pricing/
   - type: Blog
     url: https://jfrog.com/blog/
-  - type: Status
+  - type: StatusPage
     url: https://status.jfrog.com/
-  - type: Sign Up
+  - type: SignUp
     url: https://jfrog.com/start-free/
   - type: Integrations
     url: https://jfrog.com/integrations/
