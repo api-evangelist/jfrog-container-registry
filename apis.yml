@@ -36,6 +36,8 @@ apis:
       - type: Pricing
         url: https://jfrog.com/pricing/
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/jfrog-ltd
   - type: Website
     url: https://jfrog.com/container-registry/
   - type: Documentation
