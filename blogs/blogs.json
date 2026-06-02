@@ -2,12 +2,20 @@
   "repo": "jfrog-container-registry",
   "feeds": [
     {
-      "source": "https://jfrog.com/blog/",
+      "source": "https://jfrog.com/blog/feed/",
       "feed_url": "https://jfrog.com/blog/feed/",
-      "title": "From the Frog's mouth - JFrog Blog",
-      "saved": 8
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://jfrog.com/pricing/",
+      "feed_url": "https://jfrog.com/pricing/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
-  "post_count": 18,
-  "fetched": "2026-05-17T20:20:35Z"
+  "post_count": 22,
+  "fetched": "2026-06-01T23:35:02Z"
 }
