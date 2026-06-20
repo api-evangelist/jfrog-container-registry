@@ -3,7 +3,7 @@ name: JFrog Container Registry
 description: >-
   JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images. It provides advanced access control, vulnerability scanning, and scales to support enterprise container workflows across any cloud or on-premises infrastructure.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Container Images
   - Containers
