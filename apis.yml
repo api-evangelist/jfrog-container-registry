@@ -52,11 +52,11 @@ common:
     url: https://jfrog.com/blog/
   - type: StatusPage
     url: https://status.jfrog.com/
-  - type: SignUp
+  - type: Signup
     url: https://jfrog.com/start-free/
   - type: Integrations
     url: https://jfrog.com/integrations/
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://jfrog.com/llms.txt
 integrations:
   - name: Docker
