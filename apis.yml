@@ -36,6 +36,10 @@ apis:
       - type: Pricing
         url: https://jfrog.com/pricing/
 common:
+  - type: VulnerabilityDisclosure
+    url: security/jfrog-container-registry-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/jfrog-container-registry-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/jfrog-ltd
   - type: Website
