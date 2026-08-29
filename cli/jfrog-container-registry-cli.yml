@@ -1,0 +1,100 @@
+specification: API Commons CLI
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+name: JFrog CLI (jf)
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://jfrog.com/getcli/
+docs: https://docs.jfrog.com/integrations/docs/jfrog-cli
+reference: https://docs.jfrog.com/integrations/docs/jfrog-cli-command-reference
+repo: https://github.com/jfrog/jfrog-cli
+description: >-
+  JFrog CLI (`jf`) is JFrog's first-party command-line client for the JFrog Platform. It is the
+  primary programmatic surface for JFrog Container Registry — `jf docker` wraps the Docker
+  client against an Artifactory Docker/OCI registry and attaches build information, and
+  `jf helm` does the same for Helm chart repositories.
+version:
+  latest: 2.122.0
+  published: '2026-08-26'
+  source: 'registry.npmjs.org/jfrog-cli-v2-jf (queried 2026-08-29)'
+install:
+  - method: script
+    command: 'curl -fL https://install-cli.jfrog.io | sh'
+    source: https://jfrog.com/getcli/
+  - method: npm
+    command: 'npm install -g jfrog-cli-v2-jf'
+    source: https://jfrog.com/getcli/
+  - method: homebrew
+    command: 'brew install jfrog-cli'
+    source: https://jfrog.com/getcli/
+  - method: docs
+    command: 'See https://docs.jfrog.com/integrations/docs/download-and-install-the-jfrog-cli for Debian/RPM, Chocolatey, Docker image and CI setup actions.'
+command_groups:
+  - name: docker
+    binary: 'jf docker'
+    docs: https://docs.jfrog.com/artifactory/docs/jf-docker
+    note: The container-registry surface. Wraps the local Docker client against an Artifactory Docker/OCI repository.
+    commands:
+      - name: login
+        description: Log in to an Artifactory Docker registry
+      - name: build
+        description: Run Docker build (also supports `buildx build` for multi-platform images)
+      - name: push
+        description: Push image to Artifactory
+      - name: pull
+        description: Pull image from Artifactory
+      - name: scan
+        description: Scan a local Docker image for vulnerabilities with JFrog Xray
+    common_flags:
+      - '--build-name / --build-number — attach build information (must be given together)'
+      - '--server-id — server configured with `jf config add`'
+      - '--project — JFrog Artifactory project key'
+      - '--module — optional module name for build information'
+      - '--skip-login — skip docker login before build/push/pull (honored for build from JFrog CLI 2.98.0)'
+  - name: helm
+    binary: 'jf helm'
+    docs: https://docs.jfrog.com/artifactory/docs/jf-helm
+    note: Helm chart repository operations, the second half of the JFrog Container Registry surface.
+  - name: rt
+    binary: 'jf rt'
+    description: Artifactory operations — upload, download, search, copy, move, delete, properties, build-publish, build-promote.
+  - name: config
+    binary: 'jf config'
+    description: Manage server configurations (`jf config add`, `jf config show`).
+  - name: scan
+    binary: 'jf scan / jf build-scan / jf docker scan'
+    description: JFrog Xray security scanning of files, builds and local container images.
+  - name: setup
+    binary: 'jf setup'
+    docs: https://docs.jfrog.com/artifactory/docs/jf-setup
+    description: Bind a local package manager (npm, pip, maven, go, docker, helm...) to Artifactory.
+  - name: api
+    binary: 'jf api'
+    description: Direct authenticated call through to the JFrog Platform REST APIs. Requires CLI >= 2.100.0.
+key_flows:
+  - name: Push a container image to JFrog Container Registry
+    steps:
+      - 'jf config add   # configure the JFrog Platform server'
+      - 'jf docker login <server>.jfrog.io'
+      - 'jf docker build -t <server>.jfrog.io/<repo>/<image>:<tag> .'
+      - 'jf docker push <server>.jfrog.io/<repo>/<image>:<tag> --build-name my-build --build-number 1'
+      - 'jf rt build-publish my-build 1'
+  - name: Scan an image before it ships
+    steps:
+      - 'jf docker scan <image>:<tag>'
+    note: 'First run of any scan command downloads roughly 100 MB of Xray binaries (JFrog docs).'
+authentication:
+  docs: https://docs.jfrog.com/integrations/docs/authenticating-via-the-cli
+  methods:
+    - username/password
+    - access token
+    - 'browser login (`jf login`)'
+    - OIDC token exchange
+    - environment variable authentication
+    - 'RSA/SSH keys (Artifactory only, not supported for external package managers or `jf rt curl`)'
+    - 'mTLS client certificates'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

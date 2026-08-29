@@ -1,0 +1,128 @@
+specification: API Commons Packages
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: >-
+  Registry metadata endpoints queried unauthenticated on 2026-08-29 —
+  registry.npmjs.org, proxy.golang.org, search.maven.org, pypi.org, rubygems.org,
+  crates.io and azuresearch-usnc.nuget.org — cross-checked against the github.com/jfrog org.
+description: >-
+  First-party client libraries and CLI distributions for the JFrog Platform, which is what
+  serves JFrog Container Registry. Every entry below was read from the registry's own
+  metadata endpoint; `version` and `published` are the registry's values, not prose.
+scope_note: >-
+  JFrog does not ship a client library scoped to JFrog Container Registry alone. Container and
+  Helm repositories are addressed either with standard OCI/Docker clients (docker, podman,
+  helm, oras, buildx) or through the JFrog CLI and the platform clients below.
+packages:
+  - name: jfrog-cli-v2-jf
+    registry: npm
+    url: https://www.npmjs.com/package/jfrog-cli-v2-jf
+    language: javascript
+    kind: cli-installer
+    official: true
+    version: 2.122.0
+    published: '2026-08-26'
+    description: >-
+      npm distribution of the JFrog CLI v2 `jf` binary — command-line interface for
+      Artifactory, Xray, Distribution and Pipelines.
+  - name: jfrog-client-js
+    registry: npm
+    url: https://www.npmjs.com/package/jfrog-client-js
+    repo: https://github.com/jfrog/jfrog-client-js
+    language: javascript
+    kind: sdk
+    official: true
+    version: 2.9.0
+    published: '2024-11-10'
+    maintainer: jfrog-ecosystem <npm@jfrog.com>
+    note: >-
+      Published by the jfrog-ecosystem npm account. Last release 2024-11-10 — nearly two years
+      before the current Artifactory 7.166.0 SaaS release, so it lags the API it wraps.
+  - name: github.com/jfrog/jfrog-client-go
+    registry: go
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-client-go
+    language: go
+    kind: sdk
+    official: true
+    version: v1.55.0
+    published: '2025-09-15'
+    description: All Go clients for JFrog products; the client layer the JFrog CLI is built on.
+  - name: github.com/jfrog/jfrog-cli-core/v2
+    registry: go
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-cli-core/v2
+    language: go
+    kind: library
+    official: true
+    version: v2.60.0
+    published: '2025-09-16'
+  - name: github.com/jfrog/jfrog-cli-security
+    registry: go
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-cli-security
+    language: go
+    kind: library
+    official: true
+    version: v1.35.0
+    published: '2026-08-25'
+  - name: github.com/jfrog/jfrog-cli-artifactory
+    registry: go
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-cli-artifactory
+    language: go
+    kind: library
+    official: true
+    version: v0.8.0
+    published: '2025-11-18'
+  - name: github.com/jfrog/jfrog-cli
+    registry: go
+    url: https://pkg.go.dev/github.com/jfrog/jfrog-cli
+    language: go
+    kind: cli
+    official: true
+    version: v1.54.1
+    published: '2022-11-08'
+    note: >-
+      proxy.golang.org resolves this module path only to the frozen v1 line; the v2 line
+      (current jf CLI, 2.122.x) keeps the unversioned module path and is therefore not
+      resolvable as github.com/jfrog/jfrog-cli/v2. The live v2 release date is the npm
+      jfrog-cli-v2-jf entry above (2026-08-26), not this v1 date.
+  - name: org.jfrog.artifactory.client:artifactory-java-client-services
+    registry: maven
+    url: https://search.maven.org/artifact/org.jfrog.artifactory.client/artifactory-java-client-services
+    repo: https://github.com/jfrog/artifactory-client-java
+    language: java
+    kind: sdk
+    official: true
+    version: 2.20.0
+    published: '2025-05-15'
+    note: >-
+      Sibling coordinates artifactory-java-client-api and artifactory-java-client-httpClient
+      publish at the same 2.20.0 / 2025-05-15.
+absent:
+  - registry: pypi
+    checked:
+      - jfrog-cli
+      - jfrog
+    result: 404
+    note: No first-party JFrog client on PyPI was found under these names.
+  - registry: nuget
+    query: jfrog
+    result: 'no first-party package'
+    note: >-
+      The NuGet hits (Artifactory 2.3.2, JfrogPackage, Sharpliner.Extensions.JFrog) are
+      third-party, not published by JFrog Ltd.
+  - registry: rubygems
+    checked:
+      - artifactory
+    result: 'third-party'
+    note: >-
+      rubygems.org/gems/artifactory 3.0.17 is the Chef/opscode community client
+      (source_code_uri github.com/opscode/artifactory-client), not a JFrog release.
+  - registry: crates.io
+    query: jfrog
+    result: 'no first-party crate'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

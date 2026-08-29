@@ -1,0 +1,112 @@
+specification: API Commons Authentication
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://docs.jfrog.com/integrations/docs/authenticating-via-the-cli
+docs:
+  - https://docs.jfrog.com/administration/docs/jfrog-authentication-and-token-management-overview
+  - https://docs.jfrog.com/administration/docs/access-tokens
+  - https://docs.jfrog.com/artifactory/docs/authentication
+  - https://docs.jfrog.com/administration/docs/authentication-providers
+  - https://docs.jfrog.com/artifactory/docs/docker-repositories
+description: >-
+  Authentication profile for the JFrog Platform surface that serves JFrog Container Registry.
+  DERIVED FROM DOCS, NOT FROM A SPEC — JFrog publishes no downloadable OpenAPI document, so no
+  securitySchemes block was available to read. Every scheme below is stated on the JFrog
+  documentation page cited on it.
+schemes:
+  - id: bearer-access-token
+    type: http
+    scheme: bearer
+    primary: true
+    name: JFrog Access Token
+    description: >-
+      Scoped access tokens are the platform's primary API credential. Since Artifactory 7.21.1
+      all access tokens are scoped tokens; REST API access is granted by default and additional
+      group memberships or roles are attached via the scope string.
+    header: 'Authorization: Bearer <access token>'
+    token_endpoint: 'POST https://<JFrogPlatformURL>/access/api/v1/tokens'
+    docs: https://docs.jfrog.com/administration/docs/access-tokens
+    features:
+      - expiring tokens (revocable-expiry and persistency thresholds)
+      - refreshable tokens
+      - admin tokens
+      - project-admin tokens
+      - reference tokens (short opaque token usable as a basic-auth password)
+  - id: basic
+    type: http
+    scheme: basic
+    name: Basic authentication
+    description: >-
+      Username plus password, or username plus a reference token, for clients that only support
+      basic auth (certain dependency managers). The same username used when the reference token
+      was created must be supplied.
+    docs: https://docs.jfrog.com/administration/docs/access-tokens
+  - id: docker-registry-token
+    type: oauth2-like
+    name: Docker/OCI registry token auth
+    description: >-
+      Container clients authenticate against the registry token endpoint before push/pull.
+      This is the scheme a container runtime actually uses against JFrog Container Registry.
+    endpoint: 'https://<JFrogPlatformURL>/artifactory/api/docker/<REPO_NAME>/<V1|V2>/auth'
+    docs: https://docs.jfrog.com/artifactory/docs/docker-repositories
+  - id: oidc
+    type: openIdConnect
+    name: OIDC token exchange
+    description: >-
+      Exchange an external OIDC identity token (for example a GitHub Actions workload identity)
+      for a JFrog access token — no long-lived secret in CI.
+    docs:
+      - https://docs.jfrog.com/integrations/docs/jf-exchange-oidc-token
+      - https://docs.jfrog.com/integrations/docs/github-actions-oidc-authentication
+  - id: oauth-mcp
+    type: oauth2
+    name: OAuth (JFrog MCP Server)
+    description: >-
+      The remote JFrog MCP Server authorizes MCP clients over OAuth rather than API keys; the
+      client opens a browser consent window on first connect.
+    docs: https://github.com/jfrog/jfrog-mcp-server
+  - id: mtls
+    type: mutualTLS
+    name: Mutual TLS client certificates
+    docs:
+      - https://docs.jfrog.com/artifactory/docs/authentication
+      - https://docs.jfrog.com/administration/docs/mtls-authentication-in-jfrog-saas
+  - id: ssh-rsa
+    type: other
+    name: SSH / RSA key authentication
+    description: >-
+      Supported from Artifactory 4.4 for the Artifactory SSH URL (ssh://[host]:[port]).
+      NOT supported with external package managers and build tools (Maven, Gradle, npm, Docker,
+      Go, NuGet) or with `jf rt curl`.
+    docs: https://docs.jfrog.com/artifactory/docs/authentication
+  - id: browser-login
+    type: other
+    name: Browser login (`jf login`)
+    description: Interactive CLI login that opens a browser session against the platform.
+    docs: https://docs.jfrog.com/integrations/docs/authenticating-via-the-cli
+  - id: env-var
+    type: other
+    name: Environment-variable authentication
+    description: CLI credentials supplied through environment variables for CI use.
+    docs: https://docs.jfrog.com/integrations/docs/authenticating-via-the-cli
+identity_providers:
+  - SAML 2.0 SSO
+  - LDAP
+  - Multi-factor authentication (MFA) for platform login
+  - SCIM 2.0 user/group provisioning (Enterprise X / Enterprise+)
+docs_identity_providers: https://docs.jfrog.com/administration/docs/authentication-providers
+notes:
+  - >-
+    Artifactory API Keys are being retired in favour of scoped access tokens; the Artifactory
+    release notes flag "important changes to authentication" for self-managed versions 7.98.7
+    and above (https://docs.jfrog.com/releases/docs/artifactory-self-managed-releases).
+  - >-
+    Every credential is tenant-scoped. There is no shared public API host to authenticate
+    against — the host is the customer's own JFrog Platform Deployment.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

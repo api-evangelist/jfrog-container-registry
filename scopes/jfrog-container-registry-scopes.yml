@@ -1,0 +1,60 @@
+specification: API Commons OAuth Scopes
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://docs.jfrog.com/administration/docs/access-tokens
+docs: https://docs.jfrog.com/administration/reference/create-scoped-token
+description: >-
+  Scope grammar for JFrog Platform scoped access tokens — the credential used for the REST
+  surface behind JFrog Container Registry. Read from JFrog's own access-token documentation;
+  no OpenAPI securityScheme block exists to derive from (JFrog publishes no downloadable spec).
+model: >-
+  Since Artifactory 7.21.1 every access token is a SCOPED token. REST API access is granted by
+  default; the scope string then adds the permissions the token carries. Scopes are passed as a
+  space- or comma-delimited `scope` form field on POST /access/api/v1/tokens.
+scopes:
+  - name: applied-permissions/user
+    description: >-
+      The token carries exactly the permissions of the user it was created for. This is the
+      default for a self-created identity token.
+  - name: applied-permissions/admin
+    description: >-
+      Admin-level permissions across the platform. Only an Artifactory administrator can mint
+      this. Used by companion services (Xray, Mission Control) that require admin access.
+  - name: 'applied-permissions/groups:<group-name>[,<group-name>...]'
+    description: The token is granted the permissions of the named group(s).
+  - name: 'applied-permissions/roles:<project-key>:<role>[,<role>...]'
+    description: >-
+      Project-scoped role grant. Documented example —
+      scope=applied-permissions/roles:project-key:developer,qa
+  - name: 'system:info/storage:r'
+    description: >-
+      Resource-style read scope. Named explicitly by the Get Storage Summary Info operation,
+      which states it "Requires authentication using Access Tokens, either as admin or using a
+      scoped token with the system:info/storage:r scope."
+    evidence: https://docs.jfrog.com/artifactory/reference/getstoragesummaryinfo
+token_kinds:
+  - name: Identity token
+    description: A user-scoped token any user can create for themselves.
+    docs: https://docs.jfrog.com/user-management/docs/identity-tokens
+  - name: Reference token
+    description: >-
+      A short opaque token that can be used in place of a password for basic authentication by
+      clients that only support basic auth.
+  - name: Admin scoped token
+  - name: Project admin token
+  - name: Group scoped token
+notes:
+  - >-
+    A token's scope is visible in the Access Tokens UI as a Scope column from Artifactory 7.46.3.
+  - >-
+    This is not an RFC 6749 delegated-authorization scope list — JFrog's scopes are permission
+    assertions minted into the token, not consented OAuth scopes on an authorization endpoint.
+    The OAuth flow JFrog does expose is the MCP server's client authorization; its scope set is
+    not published and could not be introspected anonymously.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

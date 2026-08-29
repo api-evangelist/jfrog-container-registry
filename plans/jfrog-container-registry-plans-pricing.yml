@@ -4,10 +4,15 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: JFrog Container Registry
 providerId: jfrog-container-registry
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://jfrog.com/pricing/
+supersedes: >-
+  The 2026-05-04 bulk-sweep scaffold that previously occupied this file. That version carried
+  invented request quotas (1,000/month free, 100,000/month pro) and invented rate limits that
+  JFrog has never published. It has been replaced wholesale with the tiers read off JFrog's
+  own pricing page on 2026-08-29.
 tags:
   - Container Images
   - Containers
@@ -15,132 +20,138 @@ tags:
   - Helm
   - JFrog
   - Registry
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: >-
+  JFrog's published subscription tiers. Note the pricing dimension: JFrog does NOT meter API
+  requests. It meters CONSUMPTION — storage plus data transfer, in GB — so there is no request
+  quota to record. Container registry (Docker and OCI repositories) is included from the Pro
+  tier upward.
+billing_dimension: 'consumption (GB of storage + data transfer), not API requests'
+plan_count: 6
+free_tier: false
+free_trial:
+  available: true
+  url: https://jfrog.com/start-free/
+  note: >-
+    JFrog markets "Start Free" as a trial of Artifactory and Xray. The historical standalone
+    free JFrog Container Registry product is no longer listed as a tier on the pricing page.
 plans:
-  - id: jfrog-container-registry-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the JFrog Container Registry API surface. Intended for evaluation,
-      prototyping, and low-volume integrations. Real limits and pricing must be reconciled with the provider's
-      published plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: JFrog Container Registry
-  - id: jfrog-container-registry-pro
-    name: Professional
+  - id: jfrog-pro-saas
+    name: Pro
+    deployment: saas
     type: paid
-    description: Production tier for JFrog Container Registry. Provides higher quotas, priority support,
-      and access to the broader API portfolio. Pricing placeholder; align with the provider's pricing
-      page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
+    price: '50.00'
+    currency: USD
+    billing_period: month
+    price_note: >-
+      $50/month is a limited-time offer stated on the pricing page; the regular price shown is
+      $150/month.
+    included:
+      consumption_gb: 25
+    overage:
+      metric: consumption_gb
+      tiers:
+        - range: '25 – 1,204 GB'
+          price_per_gb: '1.25'
+        - range: '1,204 – 2,024 GB'
+          price_per_gb: '1.00'
+        - range: '2,024+ GB'
+          price_per_gb: '0.75'
+      currency: USD
+    support: Community
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: JFrog Container Registry
-  - id: jfrog-container-registry-enterprise
-    name: Enterprise
+      - Universal binary repository
+      - Container registry
+      - ML model registry
+      - CI/CD integration
+  - id: jfrog-enterprise-x-saas
+    name: Enterprise X
+    deployment: saas
+    type: paid
+    price: '950.00'
+    price_qualifier: 'starting at'
+    currency: USD
+    billing_period: month
+    included:
+      consumption_gb: 125
+      contributing_developers: 50
+    overage:
+      metric: consumption_gb
+      note: 'Tiered consumption; volume discounts available on annual contracts.'
+    support: '24/7 SLA'
+    elements:
+      - Everything in Pro
+      - Artifact federation
+      - Advanced security features
+      - ML model scanning
+  - id: jfrog-enterprise-plus-saas
+    name: Enterprise +
+    deployment: saas
     type: enterprise
-    description: Custom-negotiated tier for JFrog Container Registry. Includes dedicated capacity, contractual
-      SLAs, security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
+    price: custom
+    price_note: 'Contact sales.'
+    included:
+      contributing_developers: 200
+    support: '24/7 High Touch Support with a technical account lead'
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: JFrog Container Registry
+      - Everything in Enterprise X
+      - Multisite federation
+      - Distribution
+      - '99.99% uptime option'
+      - Advanced deployment features
+  - id: jfrog-pro-x-self-managed
+    name: Pro X
+    deployment: self-managed
+    type: paid
+    price: '27000.00'
+    price_qualifier: 'starting at'
+    currency: USD
+    billing_period: year
+    included:
+      servers: 1
+    elements:
+      - Universal repository
+      - Container registry
+      - Security scanning
+  - id: jfrog-enterprise-x-self-managed
+    name: Enterprise X
+    deployment: self-managed
+    type: paid
+    price: '51000.00'
+    price_qualifier: 'starting at'
+    currency: USD
+    billing_period: year
+    included:
+      servers: 3
+    elements:
+      - High availability
+      - Federation capabilities
+  - id: jfrog-enterprise-plus-self-managed
+    name: Enterprise +
+    deployment: self-managed
+    type: enterprise
+    price: custom
+    included:
+      servers: 6
+    elements:
+      - Multisite federation
+      - Distribution
+add_ons:
+  - name: Unified Security
+    kind: security bundle
+  - name: Ultimate Security
+    kind: security bundle
+  - name: Unified MLOps
+    kind: mlops bundle
+  - name: Ultimate MLOps
+    kind: mlops bundle
+  - name: Additional Contributing Developers
+    kind: seat pack
+    note: 'Security features are licensed by contributing developer count above the tier base.'
+notes:
+  - 'Pro is monthly only; annual contracts are available on Enterprise X and Enterprise +.'
+  - >-
+    Prices captured 2026-08-29 and include a limited-time promotional price on Pro. Re-read the
+    pricing page before quoting.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

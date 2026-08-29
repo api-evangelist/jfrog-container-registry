@@ -4,10 +4,15 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: JFrog Container Registry
 providerId: jfrog-container-registry
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://docs.jfrog.com/artifactory/docs/aql-performance
+supersedes: >-
+  The 2026-05-04 bulk-sweep scaffold that previously occupied this file. It asserted per-tier
+  request-per-minute limits (10 / 100 / 1000), monthly request quotas, and a full set of
+  X-RateLimit-* response headers — none of which JFrog publishes. Replaced on 2026-08-29 with
+  the one throttling control JFrog actually documents.
 tags:
   - Container Images
   - Containers
@@ -16,78 +21,65 @@ tags:
   - JFrog
   - Registry
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the JFrog Container Registry API surface. Captures
-  per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values
-  to be replaced with published provider limits.
+description: >-
+  JFrog does not publish per-plan API request quotas or rate limits for the JFrog Platform.
+  Subscription tiers are metered on consumption (GB), not on requests. The one documented
+  throttling control is a CONCURRENCY cap on search/AQL requests, configurable by the operator
+  on self-managed instances.
+limit_count: 1
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  published: false
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After response headers are documented for the JFrog
+    Platform REST API. An agent cannot read remaining budget from a JFrog response; it can only
+    observe the 429.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
+  - name: Concurrent search / AQL requests
+    scope: instance
+    metric: concurrent_requests
+    limit: 3
+    limit_note: 'Default value of artifactory.aql.queries.limit.'
+    window: concurrent
+    since: 'Artifactory 7.84'
+    enforcement: >-
+      A request beyond the concurrency cap waits, then returns HTTP 429 (Too Many Requests) once
+      the pending timeout expires. Capacity frees as in-flight queries complete.
+    configurable: true
+    config_file: '$JFROG_HOME/artifactory/var/etc/artifactory/artifactory.system.properties'
+    properties:
+      - name: artifactory.aql.queries.limit.enabled
+        default: 'true in 7.84.x; false from 7.84.16'
+        description: Enable or disable throttling.
+      - name: artifactory.aql.queries.limit
+        default: 3
+        description: Maximum number of AQL/search API calls that can run in parallel.
+      - name: artifactory.aql.queries.pending.timeout.millis
+        default: 10000
+        description: How long a request waits before a 429 is returned.
+      - name: artifactory.aql.queries.unlimited.agents
+        default: 'pipeline, xray, artifactory, distribution, federation'
+        description: User agents exempted from the limit; operators add CI agents here.
     applies:
       - JFrog Container Registry
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - JFrog Container Registry
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - JFrog Container Registry
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - JFrog Container Registry
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - JFrog Container Registry
+    docs: https://docs.jfrog.com/artifactory/docs/aql-performance
+upstream_rate_limits:
+  note: >-
+    A distinct and commonly-hit failure mode: 429s returned by UPSTREAM public registries
+    (Maven Central, npm, PyPI, chocolatey) that Artifactory proxies through remote repositories
+    can surface to the client as 404s rather than 429s.
+  docs: https://jfrog.com/help/r/artifactory-429-rate-limits-from-maven-central-public-upstreams-surface-as-404s/artifactory-429-rate-limits-from-maven-central/public-upstreams-surface-as-404s
+  related: >-
+    From Artifactory 7.153.2 a four-hour minimum Metadata Cache Retrieval Period is enforced on
+    NuGet remotes proxying community.chocolatey.org, and a 30-second minimum is being introduced
+    for SaaS remote repositories — both are load controls in the same family.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Deployment model
+    description: >-
+      JFrog Container Registry runs on the customer's own JFrog Platform Deployment. There is no
+      shared multi-tenant API host with a published global rate limit; throttling is an
+      instance-level operator setting on self-managed and is managed by JFrog on SaaS.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

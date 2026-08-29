@@ -1,0 +1,84 @@
+specification: API Commons ChangeLog
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://docs.jfrog.com/releases/docs/artifactory-release-notes
+docs:
+  saas: https://docs.jfrog.com/releases/docs/artifactory-saas-releases
+  self_managed: https://docs.jfrog.com/releases/docs/artifactory-self-managed-releases
+  end_of_life: https://docs.jfrog.com/releases/docs/artifactory-end-of-life
+  deprecations_in_process: https://docs.jfrog.com/releases/docs/deprecations-in-process
+  artifactory_deprecations: https://docs.jfrog.com/releases/docs/artifactory-deprecations
+description: >-
+  JFrog publishes dated, per-version release notes for Artifactory — the product that serves
+  JFrog Container Registry — split into separate SaaS and Self-Managed tracks, with standing
+  "Important Changes", "Deprecated Features" and "CVEs Addressed" sections. Recent window only.
+scheme: 'Semantic product versioning, major.minor.patch (7.x)'
+current_version:
+  saas: 7.166.0
+  self_managed: 7.161.20
+  as_of: '2026-08-29'
+tracks_breaking_changes: true
+tracks_deprecations: true
+tracks_cves: true
+entries:
+  - version: 7.166.0
+    track: saas
+    date: '2026-08-25'
+    highlights:
+      - 'Feature Enhancements: support for FHIR Registry in npm repositories'
+      - Resolved issues
+  - version: 7.165.0
+    track: saas
+    date: '2026-08-18'
+    highlights:
+      - >-
+        Performance enhancement to the Metadata Retrieval Cache Period
+        (virtualRetrievalCachePeriodSecs) for npm virtual repositories
+      - CVEs addressed
+  - version: 7.164.0
+    track: saas
+    date: '2026-08-10'
+    breaking: false
+    highlights:
+      - 'JFrog MCP Server is now Generally Available (GA)'
+      - Important JFrog Distribution compatibility notice
+  - version: 7.162.0
+    track: saas
+    date: '2026-08-03'
+    highlights:
+      - CVEs addressed
+  - version: 7.161.13
+    track: saas
+    date: '2026-07-25'
+    breaking: true
+    highlights:
+      - Critical security notice
+      - 'Breaking change for remote Terraform repositories'
+      - CVEs addressed
+  - version: 7.161.5
+    track: saas
+    date: '2026-07-15'
+    highlights:
+      - Critical security notice
+      - 'New feature: support for LuaRocks repositories'
+standing_notices:
+  - since: 7.153.2
+    text: >-
+      NuGet remote repositories proxying community.chocolatey.org have an enforced minimum
+      Metadata Cache Retrieval Period of four hours (14400 seconds).
+  - upcoming: true
+    text: >-
+      On Artifactory SaaS, remote repositories will have a minimum Metadata Retrieval Cache
+      Period of 30 seconds; smart remote repositories are exempt. JFrog states the minimum
+      "supports consistent service availability for Agentic workflows".
+  - since: 7.98.7
+    text: >-
+      Recent self-managed Artifactory versions contain important changes to authentication —
+      read the self-managed release notes before upgrading.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

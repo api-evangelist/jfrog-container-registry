@@ -1,0 +1,75 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://docs.jfrog.com/releases/docs/artifactory-release-notes
+description: >-
+  Versioning, deprecation, end-of-life and availability posture for the JFrog Platform surface
+  that serves JFrog Container Registry.
+versioning:
+  scheme: 'Semantic product versioning (7.major.minor)'
+  current:
+    saas: 7.166.0
+    self_managed: 7.161.20
+  tracks:
+    - name: SaaS
+      url: https://docs.jfrog.com/releases/docs/artifactory-saas-releases
+      cadence: 'roughly weekly to fortnightly, dated per release'
+    - name: Self-Managed
+      url: https://docs.jfrog.com/releases/docs/artifactory-self-managed-releases
+  api_versioning: >-
+    Path-versioned per service (/artifactory/api/v1, /access/api/v1,
+    /artifactory/api/docker/<repo>/v2). Individual operations are dated by the product version
+    they appeared in ("Since: 7.72").
+deprecation_policy:
+  published: true
+  in_process: https://docs.jfrog.com/releases/docs/deprecations-in-process
+  product_table: https://docs.jfrog.com/releases/docs/artifactory-deprecations
+  format: >-
+    A public table with columns Product / What is being deprecated / Timeframe / Deprecation
+    process and next steps / What has to be done. Items move from "in process" to the product
+    deprecation table when they take effect.
+  examples:
+    - 'Artifactory Release Lifecycle Management (RLM) — listed in Deprecations in Process'
+    - >-
+      Artifactory User, Groups, Token and Permissions management endpoints — flagged in the
+      Artifactory Deprecated Features section of the release notes
+    - >-
+      Distribute Artifact (distributeArtifact) — deprecated; Bintray was sunset in May 2021,
+      replaced by the Distribution REST APIs
+      (https://docs.jfrog.com/artifactory/reference/distributeartifact)
+  sunset_header: unknown
+  note: >-
+    No RFC 8594 Sunset / Deprecation response headers are documented. Deprecation is announced
+    in release notes and deprecation tables, not in-band.
+end_of_life:
+  published: true
+  url: https://docs.jfrog.com/releases/docs/artifactory-end-of-life
+  note: Release notes for versions past their end-of-life date are archived on this page.
+deprecated_operations:
+  - operationId: distributeArtifact
+    reason: 'Bintray sunset May 2021; replaced by the Distribution REST APIs.'
+    docs: https://docs.jfrog.com/artifactory/reference/distributeartifact
+status_page:
+  url: https://status.jfrog.com/
+  probe:
+    date: '2026-08-29'
+    status: '<no response>'
+    detail: >-
+      TLS handshake failure (SSLV3_ALERT_HANDSHAKE_FAILURE) from two independent clients on
+      2026-08-29; DNS resolves (99.84.160.x, AWS CloudFront). The host is JFrog's published
+      status page and is not treated as dead — the edge refused our TLS parameters, which is an
+      ordinary edge policy, not a missing page.
+sla:
+  published: partial
+  note: >-
+    JFrog's pricing page states 24/7 SLA support on Enterprise X and a 99.99% uptime option on
+    Enterprise+. The SLA document itself is not published on a public URL found by this pass.
+  source: https://jfrog.com/pricing/
+support: https://jfrog.com/support/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

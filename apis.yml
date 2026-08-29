@@ -37,7 +37,7 @@ tags:
 url: >-
   https://raw.githubusercontent.com/api-evangelist/jfrog-container-registry/refs/heads/main/apis.yml
 created: '2026-03-26'
-modified: '2026-03-26'
+modified: '2026-08-29'
 specificationVersion: '0.23'
 apis:
   - aid: jfrog-container-registry:jfrog-container-registry
@@ -45,6 +45,7 @@ apis:
     description: >-
       JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images with advanced access control and vulnerability scanning.
     humanURL: https://jfrog.com/container-registry/
+    baseURL: https://{server-name}.jfrog.io/artifactory/api/docker/{repo-key}/v2
     tags:
       - Container Images
       - Containers
@@ -55,9 +56,27 @@ apis:
       - type: Documentation
         url: https://jfrog.com/help/r/jfrog-artifactory-documentation
       - type: GettingStarted
-        url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
+        url: https://docs.jfrog.com/setup/docs/get-started
       - type: Pricing
         url: https://jfrog.com/pricing/
+      - type: APIReference
+        url: https://docs.jfrog.com/artifactory/reference/
+      - type: Authentication
+        url: authentication/jfrog-container-registry-authentication.yml
+      - type: OAuthScopes
+        url: scopes/jfrog-container-registry-scopes.yml
+      - type: Conventions
+        url: conventions/jfrog-container-registry-conventions.yml
+      - type: Conformance
+        url: conformance/jfrog-container-registry-conformance.yml
+      - type: MCPServer
+        url: mcp/jfrog-container-registry-mcp.yml
+      - type: Webhooks
+        url: asyncapi/jfrog-container-registry-platform-webhooks.yml
+      - type: RateLimits
+        url: rate-limits/jfrog-container-registry-rate-limits.yml
+      - type: Plans
+        url: plans/jfrog-container-registry-plans-pricing.yml
 common:
   - type: VulnerabilityDisclosure
     url: security/jfrog-container-registry-vulnerability-disclosure.yml
@@ -70,7 +89,7 @@ common:
   - type: Documentation
     url: https://jfrog.com/help/r/jfrog-artifactory-documentation
   - type: GettingStarted
-    url: https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory
+    url: https://docs.jfrog.com/setup/docs/get-started
   - type: GitHubOrganization
     url: https://github.com/jfrog
   - type: Pricing
@@ -85,9 +104,70 @@ common:
     url: https://jfrog.com/integrations/
   - type: LlmsText
     url: https://jfrog.com/llms.txt
+  - type: WellKnown
+    url: well-known/jfrog-container-registry-well-known.yml
+  - type: SecurityTxt
+    url: well-known/jfrog-container-registry-security.txt
+  - type: Security
+    url: security/jfrog-container-registry-vulnerability-disclosure.yml
+  - type: TrustCenter
+    url: security/jfrog-container-registry-trust-center.yml
+  - type: Compliance
+    url: security/jfrog-container-registry-trust-center.yml
+  - type: Conformance
+    url: conformance/jfrog-container-registry-conformance.yml
+  - type: MCPServer
+    url: mcp/jfrog-container-registry-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Packages
+    url: packages/jfrog-container-registry-packages.yml
+  - type: SDKs
+    url: packages/jfrog-container-registry-packages.yml
+  - type: CLI
+    url: cli/jfrog-container-registry-cli.yml
+  - type: Conventions
+    url: conventions/jfrog-container-registry-conventions.yml
+  - type: Authentication
+    url: authentication/jfrog-container-registry-authentication.yml
+  - type: OAuthScopes
+    url: scopes/jfrog-container-registry-scopes.yml
+  - type: Lifecycle
+    url: lifecycle/jfrog-container-registry-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/jfrog-container-registry-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/jfrog-container-registry-changelog.yml
+  - type: Webhooks
+    url: asyncapi/jfrog-container-registry-platform-webhooks.yml
+  - type: Plans
+    url: plans/jfrog-container-registry-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/jfrog-container-registry-rate-limits.yml
+  - type: FinOps
+    url: finops/jfrog-container-registry-finops.yml
+  - type: LLMsTxt
+    url: llms/jfrog-container-registry-llms.txt
+  - type: DeveloperPortal
+    url: https://docs.jfrog.com/
+  - type: APIReference
+    url: https://docs.jfrog.com/artifactory/reference/
+  - type: Support
+    url: https://jfrog.com/support/
+  - type: TermsOfService
+    url: https://jfrog.com/eula/
+  - type: PrivacyPolicy
+    url: https://jfrog.com/privacy-policy/
 integrations:
   - name: Docker
   - name: Maven
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-29'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v1
+x-parent: jfrog
+x-relationship: product

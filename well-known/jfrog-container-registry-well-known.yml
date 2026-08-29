@@ -1,0 +1,67 @@
+specification: API Commons Well-Known
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: probed
+source: live unauthenticated HTTP probes of jfrog.com and docs.jfrog.com
+description: >-
+  Probe of the IETF/AI well-known document paths on every host JFrog Container Registry
+  (a JFrog Ltd product) publishes from. jfrog.com serves a real, PGP-signed security.txt;
+  every other probed path on both hosts either 404s or returns the docs SPA shell.
+scope_note: >-
+  JFrog Container Registry is a product of JFrog Ltd and is served from the corporate
+  domain jfrog.com; its documentation lives on docs.jfrog.com. Both hosts are JFrog-controlled,
+  so both were probed.
+hosts:
+  - host: jfrog.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: jfrog-container-registry-security.txt
+        note: >-
+          Real RFC 9116 document, PGP clear-signed. Contact mailto:security@jfrog.com,
+          Expires 2029-01-12, Encryption key at https://jfrog.com/security/public-key.txt,
+          Canonical https://jfrog.com/.well-known/security.txt.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: docs.jfrog.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: >-
+          NOT a document. The ReadMe-hosted docs site answers 200 with its SPA HTML shell
+          (<!DOCTYPE html>...) for every /.well-known/* path. Treated as a miss.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        note: SPA HTML shell, not a plugin manifest. Treated as a miss.
+      - path: /.well-known/agent-card.json
+        status: 200
+        note: SPA HTML shell, not an A2A AgentCard. Treated as a miss.
+      - path: /.well-known/agent.json
+        status: 200
+        note: SPA HTML shell, not an A2A AgentCard. Treated as a miss.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

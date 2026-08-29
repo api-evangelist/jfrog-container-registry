@@ -1,0 +1,156 @@
+specification: API Commons Conventions
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: >-
+  JFrog documentation on docs.jfrog.com, fetched as markdown twins on 2026-08-29. No OpenAPI
+  document is published by JFrog, so nothing here is derived from a spec.
+description: >-
+  Cross-cutting runtime semantics for the JFrog Platform REST + registry surface that serves
+  JFrog Container Registry.
+auth_style:
+  primary: 'Authorization: Bearer <scoped access token>'
+  see: authentication/jfrog-container-registry-authentication.yml
+base_url:
+  form: 'https://<JFrogPlatformURL>/artifactory/api/...'
+  registry_form: 'https://<JFrogPlatformURL>/artifactory/api/docker/<REPO_NAME>/v2/...'
+  templated: true
+  note: >-
+    There is no shared public API host. The host is the customer's own JFrog Platform
+    Deployment (JPD), e.g. https://mycompany.jfrog.io. Documented at
+    https://docs.jfrog.com/artifactory/docs/docker-repositories
+versioning:
+  scheme: 'Product semantic version (major.minor.patch), e.g. 7.166.0'
+  api_versioning: >-
+    Endpoints carry their own path version (/artifactory/api/v1, /access/api/v1,
+    /artifactory/api/docker/<repo>/v2). Operation docs state a "Since:" product version rather
+    than an API version — e.g. "Since: 7.72", "Since: 2.2.1".
+  docs: https://docs.jfrog.com/releases/docs/artifactory-release-notes
+  see: lifecycle/jfrog-container-registry-lifecycle.yml
+pagination:
+  style: mixed
+  note: >-
+    Not uniform across the platform. The OCI/Docker catalog and tag-list endpoints use the
+    Distribution spec's `n` (page size) and `last` cursor parameters. Several Artifactory
+    endpoints state "Results are paginated" (e.g. Get Puppet Modules, Get Puppet Releases)
+    without a documented common envelope. AQL uses `.limit()` and `.offset()` operators inside
+    the query language rather than query parameters.
+  docs: https://docs.jfrog.com/artifactory/docs/artifactory-query-language
+error_envelope:
+  format: 'JSON {"errors":[{"status":<code>,"message":"<text>"}]}'
+  problem_json: false
+  note: >-
+    Artifactory returns a JSON `errors` array rather than RFC 9457 application/problem+json.
+    No published error-code reference page was found; error semantics are documented per
+    operation in the API reference.
+rate_limit_signaling:
+  see: rate-limits/jfrog-container-registry-rate-limits.yml
+  status_on_exhaustion: 429
+  headers_published: false
+request_id_tracing:
+  published: false
+  note: >-
+    No documented request-id / correlation-id response header was found. Webhook payloads do
+    carry a `userContext` object (id, isToken, realm) identifying who triggered the event,
+    which is the platform's audit-correlation primitive.
+  docs: https://docs.jfrog.com/integrations/docs/webhook-event-types
+metadata:
+  supported: true
+  mechanism: >-
+    Artifact PROPERTIES — arbitrary key/value pairs attachable to a file, folder, repository or
+    Release Bundle v2, settable at deploy time or afterwards
+    (setItemProperties / updateItemProperties / deleteItemProperties). Requires Artifactory Pro;
+    local and local-cached repositories only.
+  docs: https://docs.jfrog.com/artifactory/reference/setitemproperties
+  note: >-
+    From Artifactory 7.104.x an admin can cap recursive property updates with the system
+    parameter artifactory.max.artifacts.set.properties.recursive.
+dry_run_mode:
+  supported: true
+  operations:
+    - copyItem
+    - moveItem
+  note: >-
+    "You can test the copy using a dry run" / "You can test the move using dry run" — JFrog's
+    own wording on https://docs.jfrog.com/artifactory/reference/copyitem and
+    https://docs.jfrog.com/artifactory/reference/moveitem.
+idempotency:
+  supported: partial
+  header: null
+  note: >-
+    JFrog publishes NO idempotency key header. What it does publish is checksum-based
+    deduplicated deploy: deployArtifactByChecksum copies existing content when Artifactory
+    already holds a user-readable artifact with the same checksum, and returns 404 when it does
+    not, so re-running a deploy of identical content does not duplicate the binary. Container
+    push is content-addressed by digest under the OCI Distribution spec, which gives the same
+    property for image layers and manifests. Neither is a general-purpose idempotency key.
+  docs: https://docs.jfrog.com/artifactory/reference/deployartifactbychecksum
+reversibility:
+  grade: documented
+  applicable: true
+  note: >-
+    Graded `documented` rather than `verified`: JFrog documents the reversal path and states
+    that restore works "within the specified retention period", but the retention period is an
+    administrator-configured number of days with no default published in the docs, so no
+    concrete window can be recorded without inventing one.
+  surfaces:
+    - write_operation: 'Delete Item (deleteItem) — delete a file or folder from a local repository'
+      reversal: 'Restore Item from Trash Can'
+      operationId: restoreItemFromTrashCan
+      window: >-
+        The administrator-configured Trash Can Retention Period, in days. Set under
+        Administration > Artifactory Settings > General Settings > Trash Can Settings
+        ("The number of days to keep deleted items in the trash can before deleting
+        permanently"). No default value is published.
+      window_stated: true
+      window_value_published: false
+      irreversible_after:
+        - 'Empty Trash Can (emptyTrashCan) — permanently deletes the entire Trash Can contents'
+        - 'Delete Item From Trash Can (deleteItemFromTrashCan) — permanent, per item'
+        - 'Run Garbage Collection (runGarbageCollection) — deletes Trash Can artifacts whose retention has expired'
+      preconditions:
+        - Trash Can must be enabled by an administrator
+        - Requires Artifactory Pro
+        - Local repositories only
+      docs:
+        - https://docs.jfrog.com/artifactory/docs/trash-can
+        - https://docs.jfrog.com/installation/docs/general-settings
+        - https://docs.jfrog.com/artifactory/reference/restoreitemfromtrashcan
+    - write_operation: 'Distribute Release Bundle'
+      reversal: 'Abort distribution'
+      operationId: distribution_release_bundles_abort
+      window: 'While the distribution is in flight only; a completed distribution is not aborted.'
+      window_stated: false
+      docs: https://github.com/jfrog/jfrog-mcp-server/blob/main/TOOLS.md
+    - write_operation: 'Promote an AppTrust application version to a stage'
+      reversal: 'Roll back the version'
+      operationId: apptrust_rollback_version
+      window: 'Not stated in the published documentation.'
+      window_stated: false
+      docs: https://github.com/jfrog/jfrog-mcp-server/blob/main/TOOLS.md
+    - write_operation: 'Deploy artifact / push container tag'
+      reversal: 'Delete the item, then restore from Trash Can if needed'
+      note: >-
+        There is no "undo deploy". A re-deploy overwrites in place and fires an UPDATE event;
+        recovery is the Trash Can path above.
+  read_only_api: false
+signed_urls:
+  supported: true
+  note: >-
+    createSignedUrl generates a temporary download URL for a repository path. Default expiry
+    24 hours, maximum one year (365 days). Cloud Enterprise and Cloud Enterprise+ only.
+    replaceSignedUrlKey invalidates every previously issued signed URL.
+  docs: https://docs.jfrog.com/artifactory/reference/createsignedurl
+cross_links:
+  authentication: authentication/jfrog-container-registry-authentication.yml
+  scopes: scopes/jfrog-container-registry-scopes.yml
+  lifecycle: lifecycle/jfrog-container-registry-lifecycle.yml
+  rate_limits: rate-limits/jfrog-container-registry-rate-limits.yml
+  conformance: conformance/jfrog-container-registry-conformance.yml
+  webhooks: asyncapi/jfrog-container-registry-platform-webhooks.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

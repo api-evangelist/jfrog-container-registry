@@ -1,0 +1,208 @@
+specification: API Commons Webhooks
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://docs.jfrog.com/integrations/docs/webhook-event-types
+docs:
+  overview: https://docs.jfrog.com/integrations/docs/webhooks
+  event_types: https://docs.jfrog.com/integrations/docs/webhook-event-types
+  predefined: https://docs.jfrog.com/integrations/docs/predefined-webhooks
+  custom: https://docs.jfrog.com/integrations/docs/custom-webhooks
+  rest_api: https://docs.jfrog.com/administration/reference/createwebhooksubscription
+  mcp: https://docs.jfrog.com/integrations/docs/manage-webhooks-with-mcp
+  test: https://docs.jfrog.com/integrations/docs/test-a-webhook
+  troubleshooting: https://docs.jfrog.com/integrations/docs/webhooks-troubleshooting
+asyncapi_published: false
+description: 'JFrog publishes a real, documented event surface for the JFrog Platform — the system that
+  serves JFrog Container Registry. There is NO AsyncAPI document; this is the webhook catalog captured
+  from JFrog''s own Webhook Event Types reference. The `docker` domain is the container-registry-specific
+  surface: tag pushed, deleted and promoted.'
+transport:
+  protocol: HTTP POST to a subscriber-configured URL
+  delivery: asynchronous, via the JFrog Event Service microservice
+  docs: https://docs.jfrog.com/installation/docs/system-architecture
+types:
+- name: Predefined
+  description: Fixed payload shape; the subscriber may customize only the target URL and HTTP headers.
+- name: Custom
+  description: Subscriber-customizable HTTP headers and payload template, so the event can be shaped for
+    GitHub Actions, GitLab pipelines, Jenkins, Slack and similar targets.
+subscription_model:
+  shape: event_filter { domain, event_types[], criteria{} } plus handlers, secrets and headers
+  projectKey: string — the event's project context must match exactly; applies to all AppTrust events
+  example: '"event_filter": {"domain":"artifact","event_types":["deployed","deleted"],"criteria":{"anyLocal":true,"anyRemote":false,"repoKeys":["my-repo"],"includePatterns":[],"excludePatterns":[]}}'
+  note: The full subscription request schema is documented on the Create a New Webhook Subscription REST
+    API reference page.
+payload_common:
+  fields:
+  - domain
+  - event_type
+  - data
+  - subscription_key
+  - jpd_origin
+  - source
+  - userContext
+  userContext:
+    id: username, or the token subject for access-token requests
+    isToken: boolean
+    realm: authentication realm, e.g. internal, ldap
+  note: Custom webhook payload templates reference these with dotted syntax, e.g. {{ .userContext.id }}.
+domains:
+- domain: artifact
+  label: Artifact
+  event_count: 5
+  events:
+  - deployed
+  - deleted
+  - moved
+  - copied
+  - cached
+  criteria: anyLocal, anyRemote, repoKeys, includePatterns, excludePatterns
+- domain: artifact_property
+  label: Artifact Properties
+  event_count: 2
+  events:
+  - added
+  - deleted
+  criteria: anyLocal, anyRemote, repoKeys, includePatterns, excludePatterns
+- domain: docker
+  label: Docker
+  event_count: 3
+  events:
+  - pushed
+  - deleted
+  - promoted
+  criteria: anyLocal, anyRemote, repoKeys, includePatterns, excludePatterns
+  container_registry_surface: true
+  event_detail:
+  - pushed — a new tag of a Docker or OCI image is pushed to a Docker or OCI repository
+  - deleted — a tag of a Docker or OCI image is deleted from a Docker or OCI repository
+  - promoted — a tag of a Docker or OCI image is promoted (applies on the source repository)
+- domain: build
+  label: Build
+  event_count: 3
+  events:
+  - uploaded
+  - deleted
+  - promoted
+  criteria: build names or build patterns
+- domain: release_bundle
+  label: Release Bundle
+  event_count: 3
+  events:
+  - created
+  - signed
+  - deleted
+  criteria: Release Bundle names or patterns
+- domain: curation
+  label: Curation
+  event_count: 4
+  events:
+  - Package was blocked by Curation
+  - Curation Waiver Request Created
+  - Curation Waiver Request Updated
+  - Curation Policy Changed
+  criteria: none — all curation events on the instance are delivered
+- domain: distribution
+  label: Distribution
+  event_count: 7
+  events:
+  - distribute_started
+  - distribute_completed
+  - distribute_aborted
+  - distribute_failed
+  - deletion_started
+  - deletion_completed
+  - deletion_failed
+  criteria: Release Bundle names/patterns and the Edge nodes involved
+- domain: destination
+  label: Destination
+  event_count: 4
+  events:
+  - received
+  - delete_started
+  - delete_completed
+  - delete_failed
+  criteria: Release Bundle names/patterns and the Edge nodes involved
+- domain: user
+  label: User
+  event_count: 1
+  events:
+  - User has been locked
+  criteria: none — the locked event fires on every account lockout
+- domain: release_bundle_v2
+  label: Release Bundle v2
+  event_count: 3
+  events:
+  - Release Bundle v2 creation started
+  - Release Bundle v2 creation failed
+  - Release Bundle v2 creation completed
+  criteria: all Release Bundles or selected ones, with optional project scope (Artifactory 7.125.3+)
+- domain: release_bundle_v2_promotion
+  label: Release Bundle v2 Promotion
+  event_count: 3
+  events:
+  - Release Bundle v2 promotion started
+  - Release Bundle v2 promotion failed
+  - Release Bundle v2 promotion completed
+  criteria: target environments promoted to
+- domain: xray_scan_status
+  label: Xray Scan Status
+  event_count: 4
+  events:
+  - Scan completed
+  - Scan failed
+  - Scan partially completed
+  - Scan not supported
+  criteria: one or more terminal scan outcomes (done, failed, partial, not_supported); project-scoped
+    subscriptions supported
+- domain: app_trust
+  label: AppTrust
+  event_count: 24
+  events:
+  - Entry gate evaluation started
+  - Entry gate evaluation passed
+  - Entry gate evaluation failed
+  - Exit gate evaluation started
+  - Exit gate evaluation passed
+  - Exit gate evaluation failed
+  - Application creation started
+  - Application creation completed
+  - Application creation failed
+  - Application update started
+  - Application update completed
+  - Application update failed
+  - Application deletion started
+  - Application deletion completed
+  - Application deletion failed
+  - Version creation started
+  - Version creation completed
+  - Version creation failed
+  - Version promotion started
+  - Version promotion completed
+  - Version promotion failed
+  - Version release started
+  - Version release completed
+  - Version release failed
+  criteria: projectKey (exact), applicationKeys (in-list), stages (in-list)
+domain_count: 13
+event_count: 66
+management:
+  rest: getWebhookSubscriptions / createWebhookSubscription (https://docs.jfrog.com/administration/reference/getwebhooksubscriptions)
+  mcp:
+  - event_domains_list
+  - event_subscriptions_list
+  - event_subscriptions_get
+  - event_subscriptions_create
+  ui: Webhooks are available to non-admin users as well as Platform Admins.
+alternative:
+  name: JFrog Workers
+  note: JFrog directs users to Workers rather than webhooks when they need to customize and control execution
+    flows rather than be notified.
+  docs: https://docs.jfrog.com/administration/docs/workers-overview
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

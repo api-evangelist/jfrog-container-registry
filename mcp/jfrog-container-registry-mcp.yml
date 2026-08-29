@@ -1,0 +1,216 @@
+specification: API Commons MCP
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+name: JFrog MCP Server
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+status: published
+source: https://github.com/jfrog/jfrog-mcp-server
+docs: https://docs.jfrog.com/integrations/docs/add-the-jfrog-mcp-server-to-an-mcp-client
+description: >-
+  JFrog ships a first-party REMOTE MCP server hosted on the customer's own JFrog Platform
+  Deployment (JPD). It is generally available on JFrog Cloud (SaaS) and in Beta for
+  self-managed installs. The tool surface below is JFrog's own published TOOLS.md reference,
+  captured verbatim as tool names; it covers the Artifactory repository, storage and package
+  surface that backs JFrog Container Registry, alongside the rest of the JFrog Platform.
+scope_note: >-
+  This is the JFrog Platform MCP server, not a container-registry-only server. JFrog Container
+  Registry is a JFrog Ltd product served by the same platform, and its Docker/OCI repositories
+  are addressed through the artifactory_repositories_* and artifactory_storage_* tools.
+deployment:
+  mode: both
+  endpoint: 'https://<JFROG_PLATFORM_URL>/mcp'
+  endpoint_note: >-
+    Templated per tenant. JFrog's README documents the MCP client config as
+    {"mcpServers":{"jfrog":{"url":"https://<JFROG_PLATFORM_URL>/mcp"}}} where
+    <JFROG_PLATFORM_URL> is the customer's own JPD, e.g. https://mycompany.jfrog.io.
+    There is no shared multi-tenant endpoint to probe anonymously, so no live tools/list
+    response was obtained.
+  install: 'Helm chart or Docker Compose (self-managed, Beta) — see https://docs.jfrog.com/installation/docs/mcp'
+  package: https://github.com/jfrog/jfrog-mcp-server
+  auth: oauth
+  verified: searched
+availability:
+  cloud_saas: GA
+  self_managed: Beta
+  enablement: >-
+    An Admin user must enable the JFrog MCP Server on a JPD before clients can connect.
+    See https://jfrog.com/help/r/jfrog-integrations-documentation/enable-the-jfrog-mcp-server
+deprecated_predecessor:
+  name: mcp-jfrog
+  repo: https://github.com/jfrog/mcp-jfrog
+  status: deprecated
+  note: >-
+    The earlier local-stdio Model Context Protocol server for the JFrog Platform API.
+    JFrog marks the repository Deprecated in favour of the remote server above.
+other_endpoints_observed:
+  - url: https://docs.jfrog.com/mcp
+    probe: 'POST tools/list -> 401 {"jsonrpc":"2.0","error":{"code":-32001,"message":"Authorization required"}}'
+    note: >-
+      A documentation MCP endpoint served on JFrog's docs host (response headers show
+      Cloudflare in front of a Render origin, i.e. the ReadMe docs platform). It is
+      auth-gated and is NOT the JFrog Platform MCP server. Recorded for completeness;
+      no tool schemas could be read anonymously.
+toolsets:
+  - name: "Access: Tokens"
+    description: "Access token creation, listing, and revocation"
+  - name: "Access: OIDC"
+    description: "OpenID Connect identity provider configuration"
+  - name: "Access: Projects"
+    description: "Project lifecycle, membership, roles, and repository assignment"
+  - name: "Access: Roles"
+    description: "Global role creation and management"
+  - name: "Access: Stages"
+    description: "Platform stages discovery"
+  - name: "Access: Users and Groups"
+    description: "Platform user and group listing and lookup"
+  - name: "Artifactory: Repositories"
+    description: "Repository creation, listing, and update"
+  - name: "Artifactory: Packages"
+    description: "Package version queries, locations, and install commands"
+  - name: "Artifactory: Builds"
+    description: "Build discovery, run history, and build info retrieval"
+  - name: "Artifactory: Federation"
+    description: "Federated repository health, conflicts, and configuration synchronization"
+  - name: "Artifactory: Storage"
+    description: "Artifact and folder storage metadata, listing, and permissions"
+  - name: "Security"
+    description: "Catalog vulnerabilities and Xray artifact summaries"
+  - name: "Curation"
+    description: "Package compliance, audit events, and waiver requests"
+  - name: "Distribution"
+    description: "Release bundle distribution, tracking, signing keys, and edge management"
+  - name: "Grid"
+    description: "Grid topology, JPD inventory, and entity sync monitoring"
+  - name: "Workers"
+    description: "JFrog Workers listing, creation, update, retrieval, and execution history"
+  - name: "OneModel"
+    description: "Build and execute GraphQL queries against the JFrog OneModel unified data endpoint"
+  - name: "Event"
+    description: "Webhook domain catalog, subscription management, and troubleshooting"
+  - name: "Evidence: Config"
+    description: "Evidence service configuration and category administration"
+  - name: "Evidence: Categories"
+    description: "Evidence category discovery"
+  - name: "Evidence: Records"
+    description: "Evidence record search, retrieval, creation, and rendering"
+  - name: "JFrog AppTrust"
+    description: "Application lifecycle, versioning, promotion, and release management"
+tool_count: 106
+tools_source: https://github.com/jfrog/jfrog-mcp-server/blob/main/TOOLS.md
+tools_note: >-
+  Tool names captured verbatim from JFrog's published TOOLS.md. inputSchema for each tool is
+  served by the live tenant endpoint and requires an authenticated OAuth session to introspect;
+  no schemas are reproduced here because none were read.
+tools:
+  - name: access_tokens_create
+  - name: access_tokens_list
+  - name: access_oidc_create_configuration
+  - name: access_projects_create
+  - name: access_projects_get
+  - name: access_projects_update
+  - name: access_projects_create_role
+  - name: access_projects_update_role
+  - name: access_projects_get_user
+  - name: access_projects_upsert_user
+  - name: access_projects_list_groups
+  - name: access_projects_upsert_group
+  - name: access_projects_get_repository
+  - name: access_projects_move_repository_to_project
+  - name: access_projects_share_repository_with_all
+  - name: access_projects_list
+  - name: access_roles_create_global_role
+  - name: access_roles_update_global_role
+  - name: access_stages_list_global_stages
+  - name: access_users_list
+  - name: access_users_get
+  - name: access_groups_list
+  - name: access_groups_get
+  - name: artifactory_repositories_create
+  - name: artifactory_repositories_get
+  - name: artifactory_repositories_list
+  - name: artifactory_repositories_update
+  - name: artifactory_packages_get_versions
+  - name: artifactory_packages_get_version_repositories
+  - name: artifactory_packages_get_install_instructions
+  - name: artifactory_builds_list_builds
+  - name: artifactory_builds_list_build_runs
+  - name: artifactory_builds_get_info
+  - name: artifactory_federation_get_status
+  - name: artifactory_federation_get_conflicts
+  - name: artifactory_federation_update_repo_config
+  - name: artifactory_storage_artifact_info
+  - name: xray_artifact_get_summary
+  - name: xray_artifact_get_violations
+  - name: xray_artifact_security_status
+  - name: xray_sbom_search_impacted_resources
+  - name: catalog_vulnerabilities_get
+  - name: catalog_packages_versions_vulnerabilities
+  - name: catalog_packages_list_versions
+  - name: catalog_packages_get
+  - name: jfs_curation_check_remote_package_compliance
+  - name: jfs_curation_query_audit_events
+  - name: jfs_curation_create_waiver_request
+  - name: jfs_curation_query_waiver_requests
+  - name: jfs_curation_decide_waiver_request
+  - name: distribution_release_bundles_distribute
+  - name: distribution_release_bundles_abort
+  - name: distribution_release_bundles_get_path_mapping
+  - name: distribution_trackers_list
+  - name: distribution_trackers_get_by_id
+  - name: distribution_signing_keys_get_for_bundle
+  - name: distribution_signing_keys_get_public
+  - name: distribution_signing_keys_propagate
+  - name: distribution_edges_list_for_bundle
+  - name: grid_jpds_list
+  - name: grid_topology_list
+  - name: grid_topology_get
+  - name: grid_monitoring_summarize_entities
+  - name: grid_monitoring_list_entities
+  - name: grid_monitoring_get_entity
+  - name: worker_list_all
+  - name: worker_get_specific
+  - name: worker_execute
+  - name: worker_list_actions
+  - name: worker_get_instructions_for_code_generation
+  - name: worker_create
+  - name: worker_update
+  - name: worker_get_execution_history
+  - name: onemodel_graphql_query_introspect
+  - name: onemodel_graphql_query_execute
+  - name: event_domains_list
+  - name: event_subscriptions_list
+  - name: event_subscriptions_get
+  - name: event_subscriptions_create
+  - name: event_subscriptions_update
+  - name: event_troubleshooting_status
+  - name: event_troubleshooting_list
+  - name: event_troubleshooting_count
+  - name: evidence_config_get
+  - name: evidence_config_get_categories
+  - name: evidence_config_update_categories
+  - name: evidence_categories_list
+  - name: evidence_categories_get_predicate_types
+  - name: evidence_records_search
+  - name: evidence_records_get_by_subject
+  - name: evidence_records_get_by_id
+  - name: evidence_records_get_markdown_by_id
+  - name: evidence_records_prepare_statement
+  - name: evidence_records_create_by_subject
+  - name: apptrust_create_application
+  - name: apptrust_get_application_summary
+  - name: apptrust_list_applications
+  - name: apptrust_create_application_version
+  - name: apptrust_list_versions
+  - name: apptrust_get_application_version_status
+  - name: apptrust_get_lifecycle_overview
+  - name: apptrust_promote_version
+  - name: apptrust_get_version_promotion_history
+  - name: apptrust_release_version
+  - name: apptrust_rollback_version
+  - name: apptrust_get_activity_logs
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

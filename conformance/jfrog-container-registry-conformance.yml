@@ -1,0 +1,146 @@
+specification: API Commons Conformance
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: >-
+  JFrog's own documentation on docs.jfrog.com (markdown twins fetched 2026-08-29) and
+  jfrog.com/trust/. Each entry cites the exact page that states the claim.
+description: >-
+  Industry and cross-cutting standards JFrog states its platform implements, recorded against
+  the surface that serves JFrog Container Registry. Absence of an entry is not a failure; only
+  claims JFrog itself publishes are recorded here.
+domain_standard:
+  id: oci-distribution-spec
+  name: Open Container Initiative Distribution Specification
+  conforms: true
+  market: container registries / OCI image distribution
+  evidence:
+    - >-
+      https://docs.jfrog.com/artifactory/docs/oci-repositories — "Use OCI Natively: Artifactory
+      supports the relevant OCI Distribution specification API calls so that you can transparently
+      use the OCI client to access images through Artifactory."
+    - >-
+      Same page links the normative spec directly:
+      https://github.com/opencontainers/distribution-spec/blob/main/spec.md
+  signature: >-
+    The Docker/OCI registry surface is addressed at the standard registry path
+    /artifactory/api/docker/<REPO_NAME>/v2/... (documented at
+    https://docs.jfrog.com/artifactory/docs/docker-repositories, which gives the token endpoint
+    https://<JFrogPlatformURL>/artifactory/api/docker/<REPO_NAME>/<V1|V2>/auth). Clients JFrog
+    names as supported: Docker, Podman, BuildX, BuildKit/buildctl, ORAS, Helm OCI, WASM-to-OCI.
+  buyer_impact: >-
+    Any OCI-compliant client integrates with no bespoke connector; the registry is addressed with
+    docker/podman/helm/oras directly rather than through a JFrog-specific SDK.
+  note: >-
+    JFrog states support for "the relevant" Distribution specification API calls and does not
+    publish a conformance-test result or a specific spec version, so this is a stated
+    implementation claim, not a certified conformance.
+entries:
+  - id: docker-registry-http-api-v2
+    name: Docker Registry HTTP API V2
+    conforms: true
+    evidence: >-
+      https://docs.jfrog.com/artifactory/docs/docker-repositories documents the V1|V2 registry
+      paths and the /v2/ token/auth endpoint; JFrog Container Registry is marketed as a Docker
+      registry (https://jfrog.com/container-registry/).
+  - id: scim2
+    name: SCIM 2.0 (System for Cross-domain Identity Management)
+    conforms: partial
+    evidence: >-
+      https://docs.jfrog.com/administration/docs/scim — "the JFrog Platform implements the parts
+      of SCIM 2.0 required for managing users and groups and the association between them."
+      Endpoint base https://<Artifactory_URL>/access/api/v1/scim/v2. Verified by JFrog against
+      Okta and Azure AD. Enterprise X and Enterprise+ only. A documented subset (get/find/create/
+      update/disable user, group management) — not the full SCIM 2.0 surface.
+  - id: oidc
+    name: OpenID Connect
+    conforms: true
+    evidence: >-
+      OIDC token exchange is a first-class CLI auth method
+      (https://docs.jfrog.com/integrations/docs/jf-exchange-oidc-token) and OIDC identity-provider
+      configuration is exposed as an MCP tool (access_oidc_create_configuration). GitHub Actions
+      OIDC auth is documented at
+      https://docs.jfrog.com/integrations/docs/github-actions-oidc-authentication.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    evidence: >-
+      The JFrog MCP Server authenticates over OAuth
+      (https://github.com/jfrog/jfrog-mcp-server — "You connect to the JFrog MCP Server using
+      OAuth for authentication. This eliminates the need to manage API keys."). Bearer access
+      tokens are the platform's primary API credential
+      (https://docs.jfrog.com/administration/docs/access-tokens).
+  - id: saml2
+    name: SAML 2.0 SSO
+    conforms: true
+    evidence: https://docs.jfrog.com/administration/docs/authentication-providers
+  - id: openmetrics
+    name: OpenMetrics / Prometheus exposition format
+    conforms: true
+    evidence: >-
+      Three published operations return metrics in OpenMetrics/Prometheus text format —
+      getArtifactoryApplicationMetrics (Cloud SaaS), getOpenMetricsForArtifactory (Self-Managed,
+      Pro/Pro X/Enterprise X/Enterprise+) and getOpenMetricsForDistribution. Indexed at
+      https://docs.jfrog.com/artifactory/reference/llms.txt
+  - id: mtls
+    name: Mutual TLS client authentication
+    conforms: true
+    evidence: >-
+      https://docs.jfrog.com/artifactory/docs/authentication (mTLS client certificates) and
+      https://docs.jfrog.com/administration/docs/mtls-authentication-in-jfrog-saas
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: >-
+      First-party remote MCP server, GA on JFrog Cloud —
+      https://github.com/jfrog/jfrog-mcp-server. See mcp/jfrog-container-registry-mcp.yml.
+  - id: agent-skills
+    name: Agent Skills (SKILL.md packaging)
+    conforms: true
+    evidence: >-
+      Seven provider-published skills under Apache 2.0 at
+      https://github.com/jfrog/jfrog-skills. See skills/_index.yml.
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: true
+    evidence: >-
+      https://jfrog.com/.well-known/security.txt returns a PGP clear-signed document
+      (HTTP 200, probed 2026-08-29). Saved at
+      well-known/jfrog-container-registry-security.txt.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: unknown
+    evidence: >-
+      No application/problem+json media type or Problem Details envelope was found in JFrog's
+      published API reference index. JFrog publishes no downloadable OpenAPI document (see
+      x-coverage), so this could not be confirmed either way.
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: >-
+      JFrog ships a real event/webhook surface (13 domains, documented at
+      https://docs.jfrog.com/integrations/docs/webhook-event-types) but publishes no AsyncAPI
+      document for it. Captured as a webhook catalog instead —
+      asyncapi/jfrog-container-registry-platform-webhooks.yml.
+compliance_program:
+  published: true
+  trust_center: https://jfrog.com/trust/
+  certifications:
+    - name: SOC 2 Type II
+      url: https://jfrog.com/trust/certificate-program/soc-2-report/
+      auditor: Ernst & Young
+      note: Validated and updated annually per JFrog's trust pages.
+    - name: SOC 3
+      url: https://jfrog.com/trust/certificate-program/soc-3-report/
+    - name: ISO/IEC 27001
+      url: https://jfrog.com/trust/certificate-program/certificate-iso-27001/
+    - name: ISO/IEC 27701
+      url: https://jfrog.com/trust/certificate-program/certificate-iso-27701/
+  data_security_addendum: https://jfrog.com/jfrog-toms/
+  faq: https://jfrog.com/trust/faq/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

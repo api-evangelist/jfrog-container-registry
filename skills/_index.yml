@@ -1,0 +1,63 @@
+specification: API Commons Agent Skills
+specificationVersion: '0.1'
+provider: JFrog Container Registry
+providerId: jfrog-container-registry
+generated: '2026-08-29'
+modified: '2026-08-29'
+method: searched
+source: https://github.com/jfrog/jfrog-skills
+license: Apache-2.0
+status: beta
+description: >-
+  JFrog publishes its own packaged Agent Skills for the JFrog Platform in the
+  jfrog/jfrog-skills repository (Apache 2.0, marked Beta by JFrog). Each SKILL.md below is
+  saved VERBATIM from that repository — none of these were authored by API Evangelist.
+  The base `jfrog` skill covers CLI setup, artifact operations, security queries, AQL and
+  GraphQL; the rest are workflow skills that depend on it.
+scope_note: >-
+  These are JFrog Platform skills. JFrog Container Registry is a JFrog Ltd product served by
+  that platform, so its Docker/OCI repositories are operated through the same `jf` CLI and
+  MCP surface these skills drive.
+requirements:
+  - 'jf CLI >= 2.100.0 (required for `jf api`), curl and jq on PATH'
+  - 'A configured JFrog instance (`jf config add`)'
+install: >-
+  npx skills add git@github.com:jfrog/jfrog-skills.git -g --skill jfrog
+  --skill jfrog-package-curation --skill jfrog-ai-catalog
+  --skill jfrog-reference-architecture --skill jfrog-setup-package-managers
+skills:
+  - name: jfrog
+    file: skills/jfrog-container-registry-jfrog.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog/SKILL.md
+    required: true
+    summary: >-
+      Base skill. Interact with the JFrog Platform via the JFrog CLI, JFrog MCP server and
+      REST/GraphQL APIs — repositories, upload/download, builds, permissions, users and
+      groups, access tokens, search, properties, replication.
+  - name: jfrog-init
+    file: skills/jfrog-container-registry-jfrog-init.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog-init/SKILL.md
+    summary: Set up and verify the JFrog plugin; first-install configuration and setup diagnosis.
+  - name: jfrog-ai-catalog
+    file: skills/jfrog-container-registry-jfrog-ai-catalog.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog-ai-catalog/SKILL.md
+    summary: Discover, search, install, update, remove and publish agent skills and plugins in the JFrog AI Catalog.
+  - name: jfrog-mcp-management
+    file: skills/jfrog-container-registry-jfrog-mcp-management.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog-mcp-management/SKILL.md
+    summary: Install, list and remove MCP servers, and discover which MCPs a project is governed to allow.
+  - name: jfrog-package-curation
+    file: skills/jfrog-container-registry-jfrog-package-curation.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog-package-curation/SKILL.md
+    summary: Package safety checks, curation-aware downloads, and root-causing curation-blocked installs.
+  - name: jfrog-reference-architecture
+    file: skills/jfrog-container-registry-jfrog-reference-architecture.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog-reference-architecture/SKILL.md
+    summary: Topology, sizing, deployment patterns and use-case selection from the JFrog Platform Reference Architecture.
+  - name: jfrog-setup-package-managers
+    file: skills/jfrog-container-registry-jfrog-setup-package-managers.md
+    upstream: https://github.com/jfrog/jfrog-skills/blob/main/skills/jfrog-setup-package-managers/SKILL.md
+    summary: Bind local package managers (npm, pip, maven, go, docker, helm...) to Artifactory via `jf setup`.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
