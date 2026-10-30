@@ -1,4 +1,4 @@
-# JFrog Container Registry (jfrog-container-registry)
+# JFrog Container Registry
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,51 +66,132 @@
 
 JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images. It provides advanced access control, vulnerability scanning, and scales to support enterprise container workflows across any cloud or on-premises infrastructure.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/jfrog-container-registry/refs/heads/main/apis.yml)
+**Areas:** Container Images · Containers · Docker · Helm · JFrog · Registry
 
-## Scope
+## JFrog Container Registry on APIs.io
 
-- **Type:** Index
+Everything profiled for JFrog Container Registry is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/jfrog-container-registry/](https://apis.io/providers/jfrog-container-registry/)** — or go straight to one of the APIs or properties below.
 
-## Tags:
+### APIs (1)
 
- - Container Images, Containers, Docker, Helm, JFrog, Registry
+- [JFrog Container Registry](https://apis.io/apis/jfrog-container-registry/jfrog-container-registry/) — JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images with…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-26
-- **Modified:** 2026-03-26
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### JFrog Container Registry
-JFrog Container Registry is a free, hybrid, and multi-cloud Docker registry and Helm chart repository for managing and distributing container images with advanced access control and vulnerability scanning.
+Event-driven and webhook contracts.
 
-**Human URL:** [https://jfrog.com/container-registry/](https://jfrog.com/container-registry/)
+- [Jfrog Container Registry Platform Webhooks](https://apis.io/asyncapis/jfrog-container-registry/jfrog-container-registry-platform-webhooks/)
 
-#### Tags:
+#### MCP servers (1)
 
- - Container Images, Containers, Docker, Helm, Registry
+Model Context Protocol servers that expose the API to agents.
 
-#### Properties
+- [JFrog MCP Server](https://apis.io/servers/jfrog-container-registry/jfrog-mcp-server/)
 
-- [Documentation](https://jfrog.com/help/r/jfrog-artifactory-documentation)
-- [Getting Started](https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory)
-- [Pricing](https://jfrog.com/pricing/)
+#### Security (4)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Jfrog Container Registry Authentication](https://apis.io/security/jfrog-container-registry/jfrog-container-registry-authentication/)
+- [Jfrog Container Registry Domain Security](https://apis.io/security/jfrog-container-registry/jfrog-container-registry-domain-security/)
+- [Jfrog Container Registry Trust Center](https://apis.io/security/jfrog-container-registry/jfrog-container-registry-trust-center/)
+- [Jfrog Container Registry Vulnerability Disclosure](https://apis.io/security/jfrog-container-registry/jfrog-container-registry-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Jfrog Container Registry Scopes](https://apis.io/scopes/jfrog-container-registry/jfrog-container-registry-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Jfrog Container Registry Plans Pricing](https://apis.io/plans/jfrog-container-registry/jfrog-container-registry-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Jfrog Container Registry Rate Limits](https://apis.io/rate-limits/jfrog-container-registry/jfrog-container-registry-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Jfrog Container Registry Finops](https://apis.io/finops/jfrog-container-registry/jfrog-container-registry-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://jfrog.com/container-registry/)
 - [Documentation](https://jfrog.com/help/r/jfrog-artifactory-documentation)
-- [Getting Started](https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory)
-- [GitHub Organization](https://github.com/jfrog)
+- [Getting started](https://docs.jfrog.com/setup/docs/get-started)
+- [API reference](https://docs.jfrog.com/artifactory/reference/)
 - [Pricing](https://jfrog.com/pricing/)
+- [Support](https://jfrog.com/support/)
 - [Blog](https://jfrog.com/blog/)
+- [Terms of service](https://jfrog.com/eula/)
+- [Privacy policy](https://jfrog.com/privacy-policy/)
+- [GitHub](https://github.com/jfrog)
 - [Status](https://status.jfrog.com/)
-- [Sign Up](https://jfrog.com/start-free/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
+**Kin Score 59.1** — strong · rubric 0.25.0 · scored 2026-10-23
 
-**Email:** kin@apievangelist.com
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 39.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 73.7 |
+| Developer ergonomics | 50.0 |
+| Access clarity | 92.1 |
+
+**Agent readiness 31.1** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | templated |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/jfrog-container-registry/](https://apis.io/providers/jfrog-container-registry/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for JFrog Container Registry: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/jfrog-container-registry/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
